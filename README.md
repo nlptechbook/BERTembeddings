@@ -57,6 +57,8 @@ In each of the above sentences, we use the same transitive verb Want. But in the
 
 ### Implementation
 
+Google Colab: https://colab.research.google.com/drive/1k_R1qOS79auwS2JEJ7D1mYMXHXad29fd?usp=sharing
+
 To get pre-trained BERT models, we'll use transformers from Hugging Face:   
 
 > pip install transformers
