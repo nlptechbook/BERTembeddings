@@ -1,4 +1,4 @@
-# Discovering trends in BERT model embeddings of different levels for the task of semantic context determining
+# Discovering trends in BERT embeddings of different levels for the task of semantic context determining
 
 Talking about contextual embeddings in BERT, we mean the hiden states of a pre-trained model. To start with, however, BERT uses non- contextual, pre-trained embeddings being taken from the look-up table. It happens in the Embedding layer that comes before the Encoder layers, which, then, generate the hiden states for the sequence being processed. 
 
