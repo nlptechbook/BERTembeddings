@@ -183,4 +183,38 @@ Let's now calculate the distance between the resulting vectors to understand whe
 1 - spatial.distance.cosine(l0_12_2, l0_12_3)
 0.3458264470100403
 ```
-Comparing with the similarity results obtained earlier for the embeddinds generated with the 12th layer, we may conclude that these new representations enable us to get a clearer understanding of how the underlying words are different from each other depending on the context they are in.  
+Comparing with the similarity results obtained earlier for the embeddinds generated with the 12th layer, we may conclude that these new representations enable us to get a clearer understanding of how the underlying words are different from each other depending on the context they are in. 
+
+### Attention Weights to Choose the Most Important Word in Terms of Context
+
+As you no doubt have realized, the general idea is that the vector resulting from dividing the contextual embedding of a token by the static embedding of this same token includes information about the context of the entire sentence. The previous example illustrated how the proposed method works when applied to a transitive verb of a sentence. The question arises: Does it always have to be a transitive verb and is one word per sentence sufficient for this kind of analysis? 
+
+Well, it is intuitively clear that it should be an important word in terms of context. To choose one in a particular sentence, you can take advantage of attention weights generated in the encoder layers. Here is the code:
+
+Before going any further, let's look at the tokens for which we're goint to obtain the matrix of attention weights:
+```python
+tokenizer.convert_ids_to_tokens(tokenized_text[0])
+```
+> ['[CLS]', 'i', 'want', 'an', 'apple', '.', '[SEP]']
+
+Here is the 12th layer's attention weights for the sentence: 'I want a green apple.'
+```python
+outputs[0].attentions[0][0][11].numpy().round(2)
+
+array([[0.93, 0.02, 0.  , 0.01, 0.  , 0.  , 0.03],
+       [0.3 , 0.05, 0.24, 0.07, 0.14, 0.06, 0.15],
+       [0.38, 0.41, 0.04, 0.02, 0.06, 0.02, 0.07],
+       [0.48, 0.11, 0.16, 0.02, 0.02, 0.04, 0.17],
+       [0.07, 0.07, 0.26, 0.27, 0.06, 0.05, 0.23],
+       [0.52, 0.05, 0.06, 0.04, 0.07, 0.  , 0.26],
+       [0.71, 0.06, 0.03, 0.03, 0.01, 0.  , 0.15]], dtype=float32)
+```
+We sum by column, excluding special symbols:
+
+```python
+np.sum(outputs[0].attentions[0][0][11].numpy(), axis=0)[1:-1]
+
+array([0.7708196 , 0.7982767 , 0.45694995, 0.36948416, 0.17060593],
+      dtype=float32)  
+``` 
+According to the above, the second word (Want) is the most important one in the sentence.
