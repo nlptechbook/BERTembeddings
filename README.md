@@ -1,10 +1,10 @@
 # Discovering trends in BERT embeddings of different levels for the task of semantic context determining
 
-Talking about contextual embeddings in BERT, we mean the hiden states of a pre-trained model. To start with, however, BERT uses non- contextual, pre-trained (static) embeddings being taken from the look-up table. It happens in the Embedding layer that comes before the Encoder layers, which, then, generate the hiden states for the sequence being processed. 
+Talking about contextual embeddings in BERT, we mean the hidden states of a pre-trained model. To start with, however, BERT uses non- contextual, pre-trained (static) embeddings being taken from the look-up table. It happens in the Embedding layer that comes before the Encoder layers, which, then, generate the hidden states for the sequence being processed. 
 
 ## Hypothesis
    
-The hypothesis is that the difference between the intial, non-contextual embedding of a token and the contextual embedding generated then with the encoders for this same token can contain information about the context itself and, therefore, can be useful when, for example, you need to generate a summary embedding for the entire sentence in such tasks as, say, sentence entailment.
+The hypothesis is that the difference between the initial, non-contextual embedding of a token and the contextual embedding generated then with the encoders for this same token can contain information about the context itself and, therefore, can be useful when, for example, you need to generate a summary embedding for the entire sentence in such tasks as, say, sentence entailment.
 
 ## Intuition 
     
