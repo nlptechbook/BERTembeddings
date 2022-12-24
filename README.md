@@ -218,3 +218,72 @@ array([0.7708196 , 0.7982767 , 0.45694995, 0.36948416, 0.17060593],
       dtype=float32)  
 ``` 
 According to the above, the second word (Want) is the most important one in the sentence.
+
+### Embeddings of how many tokens in a sentence need to be used
+
+As stated, we're getting a single vector - derived for the most important word in a sentence - that includes information about the context of the entire sentence. However, to get a better picture of the sentence context, it would also be nice to have such a vector for the word that is most syntactically related to that most important word. Why do we need this? 
+ 
+A simple analogy from life can help answer this question: If you admire the surrounding beauties while sitting, say, in a restaurant located inside the tower - the views you contemplate will not include the tower itself. To take a photo of the tower view, you first need to exit the tower. 
+
+Now, how can we determine the word that is most syntactically related to the most important word in the sentence? The answer is: with the help of the attention weights described in the previuos section. Below we are determining the word that is syntactically closest to the most important word (Want, in this particular example). For that we check the attention weights in all 12 layers. To start with, we create an empty array:
+```python
+a = np.empty([0, len(np.sum(outputs[0].attentions[0][0][11].numpy(), axis=0)[1:-1])])
+```
+Next, we fill in the matrix of attention weights:
+```python
+for i in range(12):
+  a = np.vstack([a,np.sum(outputs[0].attentions[0][0][i].numpy(), axis=0)[1:-1]])
+```
+We are not interested in the punctuation symbol:
+```python
+a = np.delete(a, -1, axis=1)
+```
+Let's now determine in which layers Want drew the most attention:
+```python
+print(np.argmax(a,axis=1))
+b = a[np.argmax(a,axis=1) == 1]
+
+array([1, 3, 0, 2, 1, 1, 3, 0, 3, 3, 1, 1])
+```
+Next, we can determine which token draws more attention after Want in the layers where Want is in the lead:
+```python
+c = np.delete(b, 1, axis=1)
+d = np.argmax(c, axis =1)
+print(d)
+counts = np.bincount(d)
+print(np.argmax(counts))
+
+[0 2 2 2 0]
+2
+```
+So, in this particular example, we have word Apple as the one that is the most syntactically related to word Want. This is quite expected because these words represent the direct object and the transitive verb, respectively. 
+```python
+_l12_1 = hidden_states[0][12][0][4][:10].numpy()
+_l0_1 = hidden_states[0][0][0][4][:10].numpy()
+_l0_12_1 = np.log(_l12_1/_l0_1)
+_l0_12_1 = np.where(np.isnan(_l0_12_1), 0, _l0_12_1)
+```
+Let's now compare the vectors derived from the embeddings of words Apple and Want.
+```python
+print(_l0_12_1)
+
+array([ 3.753544  ,  1.4458075 , -0.56288993, -0.44559467,  0.9137548 ,
+        0.33285233,  0.        ,  0.        ,  0.        ,  0.        ],
+      dtype=float32)
+      
+print(l0_12_1)
+
+array([ 0.        ,  0.        ,  0.        ,  0.        , -0.79848075,
+        0.6715901 ,  0.30298436, -1.6455574 ,  0.1162319 ,  0.        ],
+      dtype=float32)
+```
+As you can see, one of the values in the pair of matching elements in the above two vectors is in most cases zero while the other value is non-zero. So, you can safely sum up these vectors elementwise to combine the available information into a single vector. 
+```python
+s = _l0_12_1 + l0_12_1
+print(s)
+
+array([ 3.753544  ,  1.4458075 , -0.56288993, -0.44559467,  0.11527407,
+        1.0044425 ,  0.30298436, -1.6455574 ,  0.1162319 ,  0.        ],
+      dtype=float32)
+```
+The above vector can next be used as input for sentence-level classification. 
