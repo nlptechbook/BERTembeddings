@@ -277,7 +277,7 @@ array([ 0.        ,  0.        ,  0.        ,  0.        , -0.79848075,
         0.6715901 ,  0.30298436, -1.6455574 ,  0.1162319 ,  0.        ],
       dtype=float32)
 ```
-As you can see, one of the values in the pair of matching elements in the above two vectors is in most cases zero while the other value is non-zero. So, you can safely sum up these vectors elementwise to combine the available information into a single vector. 
+As you can see, one of the values in the pair of matching elements in the above two vectors is in most cases zero while the other value is non-zero - i.e. the vectors look complementary (Remember the tower view analogy: Neighboring sights are visible from the tower, but in order to see the tower itself - perhaps the main attraction - you need to leave it) So, you can safely sum up these vectors elementwise to combine the available information into a single vector. 
 ```python
 s = _l0_12_1 + l0_12_1
 print(s)
