@@ -234,7 +234,7 @@ Next, we fill in the matrix of attention weights:
 for i in range(12):
   a = np.vstack([a,np.sum(outputs[0].attentions[0][0][i].numpy(), axis=0)[1:-1]])
 ```
-We are not interested in the punctuation symbol. So, we'll remove the column in the vector:
+We are not interested in the punctuation symbol. So, we'll remove the last column in the matrix:
 ```python
 a = np.delete(a, -1, axis=1)
 ```
