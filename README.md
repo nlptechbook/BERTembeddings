@@ -191,7 +191,7 @@ As you no doubt have realized, the general idea is that the vector resulting fro
 
 Well, it is intuitively clear that it should be an important word in terms of context. To choose one in a particular sentence, you can take advantage of attention weights generated in the encoder layers. Here is the code:
 
-Before going any further, let's look at the tokens for which we're goint to obtain the matrix of attention weights:
+Before going any further, let's look at the tokens for which we're going to obtain the matrix of attention weights:
 ```python
 tokenizer.convert_ids_to_tokens(tokenized_text[0])
 ```
@@ -225,7 +225,7 @@ As stated, we're getting a single vector - derived for the most important word i
  
 A simple analogy from life can help answer this question: If you admire the surrounding beauties while sitting, say, in a restaurant located inside the tower - the views you contemplate will not include the tower itself. To take a photo of the tower view, you first need to exit the tower. 
 
-Now, how can we determine the word that is most syntactically related to the most important word in the sentence? The answer is: with the help of the attention weights described in the previuos section. Below we are determining the word that is syntactically closest to the most important word (Want, in this particular example). For that we check the attention weights in all 12 layers. To start with, we create an empty array:
+Now, how can we determine the word that is most syntactically related to the most important word in the sentence? (best place to take a photo of the tower, according to the previous analogy) The answer is: with the help of the attention weights described in the previuos section. Below we are determining the word that is syntactically closest to the most important word (Want, in this particular example). For that we check the attention weights in all 12 layers. To start with, we create an empty array:
 ```python
 a = np.empty([0, len(np.sum(outputs[0].attentions[0][0][11].numpy(), axis=0)[1:-1])])
 ```
@@ -234,7 +234,7 @@ Next, we fill in the matrix of attention weights:
 for i in range(12):
   a = np.vstack([a,np.sum(outputs[0].attentions[0][0][i].numpy(), axis=0)[1:-1]])
 ```
-We are not interested in the punctuation symbol:
+We are not interested in the punctuation symbol. So, we'll remove the column in the vector:
 ```python
 a = np.delete(a, -1, axis=1)
 ```
