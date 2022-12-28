@@ -185,7 +185,7 @@ Let's now calculate the distance between the resulting vectors to understand whe
 ```
 Comparing with the similarity results obtained earlier for the embeddinds generated with the 12th layer, we may conclude that these new representations enable us to get a clearer understanding of how the underlying words are different from each other depending on the context they are in. 
 
-### Attention Weights to Choose the Most Important Word in Terms of Context
+### Determining the Most Important Word in Terms of Context Using Attention Weights  
 
 As you no doubt have realized, the general idea is that the vector resulting from dividing the contextual embedding of a token by the static embedding of this same token includes information about the context of the entire sentence. The previous example illustrated how the proposed method works when applied to a transitive verb of a sentence. The question arises: Does it always have to be a transitive verb and is one word per sentence sufficient for this kind of analysis? 
 
