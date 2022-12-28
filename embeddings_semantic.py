@@ -85,3 +85,12 @@ l0_12_3 = np.where(np.isnan(l0_12_3), 0, l0_12_3)
 1 - spatial.distance.cosine(l0_12_1, l0_12_2)
 1 - spatial.distance.cosine(l0_12_1, l0_12_3)
 1 - spatial.distance.cosine(l0_12_2, l0_12_3)
+
+# Determining the most important word using attention weights  
+# Here is the 12th layer's attention weights for the first sentence: 'I want an apple.'
+
+outputs[0].attentions[0][0][11].numpy().round(2)
+
+# summing by column, excluding special symbols:
+
+np.sum(outputs[0].attentions[0][0][11].numpy(), axis=0)[1:-1]
