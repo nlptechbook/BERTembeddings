@@ -197,7 +197,7 @@ tokenizer.convert_ids_to_tokens(tokenized_text[0])
 ```
 > ['[CLS]', 'i', 'want', 'an', 'apple', '.', '[SEP]']
 
-Here is the 12th layer's attention weights for the sentence: 'I want a green apple.'
+Here is the 12th layer's attention weights for the sentence: 'I want an apple.'
 ```python
 outputs[0].attentions[0][0][11].numpy().round(2)
 
