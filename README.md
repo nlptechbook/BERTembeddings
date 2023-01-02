@@ -219,7 +219,7 @@ array([0.7708196 , 0.7982767 , 0.45694995, 0.36948416, 0.17060593],
 ``` 
 According to the above, the second word (Want) is the most important one in the sentence.
 
-### Embeddings of how many tokens in a sentence need to be used
+### From How Many Tokens In a Sentence To Derive Embeddings 
 
 As stated, we're getting a single vector - derived for the most important word in a sentence - that includes information about the context of the entire sentence. However, to get a better picture of the sentence context, it would also be nice to have such a vector for the word that is most syntactically related to that most important word. Why do we need this? 
  
